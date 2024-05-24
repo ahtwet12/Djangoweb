@@ -40,7 +40,7 @@
       <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
         <div class="container-fluid">
           <a class="navbar-brand" href="index.html">
-            <img src="{% static 'polls/images/main-logo.png' %}" class="logo">
+            <img src="{% static 'polls/images/main-logo.png' %}" class="logo" >
           </a>
           <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <svg class="navbar-icon">
@@ -54,86 +54,43 @@
               </a>
               <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
             </div>
+
+                
             <div class="offcanvas-body">
               <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
+                 <li class="input-group rounded"  style="width: 250px;">
+                   <form class="d-flex" role="search" method="POST" action= "{% url 'search' %}" >
+                     {% csrf_token %}
+                     <input type="search" class="form-control rounded" placeholder="Tìm kiếm sản phẩm" aria-label="Search" aria-describedby="search-addon" name="searched"/>
+                      <button style="border: none; padding: 6px 5px; margin-left: 5px; background-color: #5891f9;color:#fff;border-radius:3px;" type="submit">Search</button>
+                   </form>
+
+                    </li>
+
                 <li class="nav-item">
-                  <a class="nav-link me-4 active" href="#billboard">Home</a>
+                  <a class="nav-link me-4 active" href="{% url 'home' %}">Trang chủ</a>
                 </li>
+
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="#company-services">Services</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="#mobile-products">Products</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="#smart-watches">Watches</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="#yearly-sale">Sale</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="#latest-blog">Blog</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Pages</a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="about.html" class="dropdown-item">About</a>
-                    </li>
-                    <li>
-                      <a href="blog.html" class="dropdown-item">Blog</a>
-                    </li>
-                    <li>
-                      <a href="shop.html" class="dropdown-item">Shop</a>
-                    </li>
-                    <li>
-                      <a href="cart.html" class="dropdown-item">Cart</a>
-                    </li>
-                    <li>
-                      <a href="checkout.html" class="dropdown-item">Checkout</a>
-                    </li>
-                    <li>
-                      <a href="single-post.html" class="dropdown-item">Single Post</a>
-                    </li>
-                    <li>
-                      <a href="single-product.html" class="dropdown-item">Single Product</a>
-                    </li>
-                    <li>
-                      <a href="contact.html" class="dropdown-item">Contact</a>
-                    </li>
-                  </ul>
+                  <a class="nav-link me-4" href="{% url 'home' %}">Sản phẩm</a>
                 </li>
                 <li class="nav-item">
-                  <div class="user-items ps-5">
-                    <ul class="d-flex justify-content-end list-unstyled">
-                      <li class="search-item pe-3">
-                        <a href="#" class="search-button">
-                          <svg class="search">
-                            <use xlink:href="#search"></use>
-                          </svg>
-                        </a>
-                      </li>
-                      <li class="pe-3">
-                        <a href="#">
-                          <svg class="user">
-                            <use xlink:href="#user"></use>
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="cart.html">
-                          <svg class="cart">
-                            <use xlink:href="#cart"></use>
-                          </svg>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  <a class="nav-link me-4" href="{% url 'home' %}">Giới thiệu</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link me-4" href="{% url 'home' %}">Liên hệ</a>
+                </li>
+                 <div class="form-inline my-2 my-lg-0">
+                   <p id="cart-total" style="margin-left: 33px; margin-bottom: -3px;">{{cartItems}}</p>
+                  <a href="{% url 'cart' %}">
+                    <img src="{% static 'polls/images/cart.png' %}" id="cart-icon" style="margin-bottom: 32px;">
+                  </a>
+              </div>
               </ul>
-              <div class="col-sm-1">
+
+              <div class="col-sm-1" >
                 {% if user.username %}
-                    <p>Xin chào {{user.username}}</p>
+                    <p>Hello! {{user.username}}</p>
                     <p><a href="{% url 'logout' %}">Đăng xuất</a></p>
                 {% else %}
                     <p><a href="{% url 'register' %}">Đăng ký</a> | <a href="{% url 'login' %}">Đăng nhập</a></p>
@@ -146,3 +103,4 @@
         </div>
       </nav>
     </header>
+</div>

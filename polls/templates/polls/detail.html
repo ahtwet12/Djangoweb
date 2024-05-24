@@ -1,0 +1,104 @@
+{% extends 'polls/base.html' %}
+{% load static %}
+
+<html>
+  <head>
+
+    {% block cssblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/cart.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/vendor.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/main.css' %}">
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'polls/images/ajax-loader.gif' %}">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    {% endblock %}
+  </head>
+  <body>
+
+
+<!--    container-->
+    {% block detail %}
+    {% for product in products %}
+    <div class="container mt-5 mb-5" style="padding-top: 100px;">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="images p-3">
+                            <div class="text-center p-4"> <img id="main-image" src="{{product.ImageURL}}" width="250" /> </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="product p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <button class="ml-1" style=" border: none; border-radius: 3px; background-color: #4875f4; padding: 3px 5px;">
+                                        <a href="{% url 'home' %}" style="  color: #fff;">Back</a>
+                                    </button>
+                                </div>
+                                <i class="fa fa-shopping-cart text-muted"></i>
+                            </div>
+                            <div class="mt-4 mb-3">
+                                <h5 class="text-uppercase">{{product.name}}</h5>
+                                <div class="price d-flex flex-row align-items-center"> <span class="act-price">${{product.price}}</span>
+
+                                </div>
+                            </div>
+                            <p class="about">{{product.description}}</p>
+                            <div class="cart mt-4 align-items-center">
+                                <button data-product={{product.id}} data-action="add" class=" btn btn-danger text-uppercase mr-2 px-4  update-cart">ADD TO CART</button>
+                                <i class="fa fa-heart text-muted"></i>
+                                <i class="fa fa-share-alt text-muted"></i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+    {% endblock %}
+
+
+  {% block jsblock %}
+
+    <script src="{% static 'polls/js/jquery-1.11.0.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="{% static 'polls/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'polls/js/plugins.js' %}"></script>
+    <script type="text/javascript" src="{% static 'polls/js/script.js' %}"></script>
+    <script src="{% static 'polls/js/modernizr.js' %}"></script>
+    <script src="{% static 'polls/js/cart.js' %}"></script>
+    <script type="text/javascript">
+      var user = '{{request.user}}'
+      function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+    </script>
+<!--    <script src="{% static 'polls/js/ajax-loader.gif' %}"></script>-->
+  {% endblock %}
+  </body>
+</html>

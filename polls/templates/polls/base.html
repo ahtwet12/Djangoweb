@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+
 <html>
   <head>
     <title>Ministore</title>
@@ -18,10 +18,25 @@
 
 
     {% include 'polls/navbar.html' %}
-    {% block cart %}
+    {% block login %}
+    {% endblock %}
+
+    {% block register %}
+    {% endblock %}
+
+    {% block detail %}
+    {% endblock %}
+
+    {% block cart_content %}
+    {% endblock %}
+
+    {% block checkout %}
     {% endblock %}
 
     {% block content %}
+    {% endblock %}
+
+    {% block search %}
     {% endblock %}
 
     {% include 'polls/footer.html' %}

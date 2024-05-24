@@ -2,22 +2,32 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
-# Create your models here.
-class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=False)
-    name = models.CharField(max_length=200, null=True)
-    email = models.CharField(max_length=200, null=True)
+from django.contrib.auth.forms import UserCreationForm
 
-    def __str__(self):
-        return self.name
+
+# change register
+class CreateUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username','email','password1','password2']
+
+# Create your models here.
 
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
+    description = models.TextField(null= True, blank=True)
     def __str__(self):
         return self.name
+    @property
+    def ImageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
@@ -30,7 +40,7 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('blog')
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     date_order = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=False)
     transaction_id = models.CharField(max_length=200, null=True)
@@ -54,8 +64,13 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_add = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def get_total(self):
+        total = self.product.price * self.quantity
+        return total
+
 class ShippingAddress(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
     address = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
