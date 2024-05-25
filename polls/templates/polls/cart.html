@@ -45,6 +45,7 @@
 				<div style="flex:1"><strong>Total</strong></div>
 			</div>
 			{% for item in items %}
+
 			<div class="cart-row">
 				<div style="flex:2"><img class="row-image" src="{{item.product.ImageURL}}"></div>
 				<div style="flex:2"><p>{{item.product.name}}</p></div>
@@ -52,9 +53,9 @@
 				<div style="flex:1">
 					<p class="quantity">{{item.quantity}}</p>
 					<div class="quantity">
-						<img data-product= {{item.product.id}} data-action='add' class="chg-quantity update-cart" src="{% static  'polls/images/arrow-up.png' %}">
+						<img data-product={{item.product.id}} data-action="add" class="chg-quantity update-cart" src="{% static  'polls/images/arrow-up.png' %}">
 
-						<img data-product= {{item.product.id}} data-action='remove' class="chg-quantity update-cart"  src="{% static  'polls/images/arrow-down.png' %}">
+						<img data-product={{item.product.id}} data-action="remove" class="chg-quantity update-cart"  src="{% static  'polls/images/arrow-down.png' %}">
 					</div>
 				</div>
 				<div style="flex:1"><p>${{item.get_total}}</p></div>
@@ -63,4 +64,36 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+
+{% block jsblock %}
+
+    <script src="{% static 'polls/js/jquery-1.11.0.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="{% static 'polls/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'polls/js/plugins.js' %}"></script>
+    <script type="text/javascript" src="{% static 'polls/js/script.js' %}"></script>
+    <script src="{% static 'polls/js/modernizr.js' %}"></script>
+    <script src="{% static 'polls/js/cart.js' %}"></script>
+    <script type="text/javascript">
+      var user = '{{request.user}}'
+      function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+    </script>
+
 {% endblock %}

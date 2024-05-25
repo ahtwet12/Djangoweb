@@ -12,7 +12,7 @@ from django.contrib.auth.forms import UserCreationForm
 @login_required(login_url= '/login')
 def add_blogs(request):
     if request.method == "POST":
-        form = BlogPostForm(data = request.POST, files = request.FILES)
+        form = Post(data = request.POST, files = request.FILES)
         if form.is_valid():
             blogpost = form.save(commit = False)
             blogpost.author = request.user
@@ -21,7 +21,7 @@ def add_blogs(request):
             alert = True
             return render(request, "polls/add_blog.html", {'obj': obj, 'alert': alert})
         else:
-            form = BlogPostForm()
+            form = Post()
         return render(request, "polls/add_blog.html", {'form': form})
 
 def home(request):
@@ -87,11 +87,11 @@ def updateItem(request):
     order, created = Order.objects.get_or_create(customer=customer,complete=False)
     orderItem, created = OrderItem.objects.get_or_create(order=order,product=product)
     if action == 'add':
-        orderItem.quantity +=1
+        orderItem.quantity += 1
     elif action == 'remove':
-        orderItem.quantity -=1
+        orderItem.quantity -= 1
     orderItem.save()
-    if orderItem.quantity<=0:
+    if orderItem.quantity <= 0:
         orderItem.delete()
 
     return JsonResponse('added', safe=False)
